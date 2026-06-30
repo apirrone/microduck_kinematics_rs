@@ -101,3 +101,9 @@ fn v1_5_matches_mujoco() {
     let fx = load("tests/fixtures/fk_v1.5.json");
     assert_matches(&Model::v1_5(), &fx, "v1.5");
 }
+
+#[test]
+fn pre_alpha_matches_mujoco() {
+    let fx = load("tests/fixtures/fk_pre-alpha.json");
+    assert_matches(&Model::pre_alpha(), &fx, "pre-alpha");
+}

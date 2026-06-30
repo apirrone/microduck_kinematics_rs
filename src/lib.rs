@@ -25,3 +25,6 @@ pub const V1_MJCF: &str = include_str!("../assets/v1/robot_walk.xml");
 
 /// MJCF text for v1.5, bundled at compile time.
 pub const V1_5_MJCF: &str = include_str!("../assets/v1.5/robot_walk.xml");
+
+/// MJCF text for pre-alpha, bundled at compile time.
+pub const PRE_ALPHA_MJCF: &str = include_str!("../assets/pre-alpha/robot_walk.xml");

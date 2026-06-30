@@ -28,6 +28,9 @@ N_SAMPLES = 64
 VERSION_SITES = {
     "v1": ["head_camera", "torso_camera", "imu", "left_foot", "right_foot", "mouth_tip"],
     "v1.5": ["head_camera", "torso_camera", "imu", "left_foot", "right_foot"],
+    # pre-alpha: no torso_camera (replaced by `tof`); mouth has no passive
+    # linkage so mouth_tip is a rigid, FK-validatable site again.
+    "pre-alpha": ["head_camera", "imu", "left_foot", "right_foot", "mouth_tip", "tof"],
 }
 
 # Joints whose angle we randomize. Passive joints in v1.5's mouth chain are
@@ -96,7 +99,7 @@ def fixture_for(version: str, mjcf_path: Path) -> dict:
 def main() -> None:
     out_dir = REPO / "tests" / "fixtures"
     out_dir.mkdir(parents=True, exist_ok=True)
-    for version, subdir in [("v1", "v1"), ("v1.5", "v1.5")]:
+    for version, subdir in [("v1", "v1"), ("v1.5", "v1.5"), ("pre-alpha", "pre-alpha")]:
         mjcf_path = REPO / "assets" / subdir / "robot_walk.xml"
         fx = fixture_for(version, mjcf_path)
         out = out_dir / f"fk_{subdir}.json"

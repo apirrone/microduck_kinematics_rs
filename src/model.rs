@@ -86,6 +86,13 @@ impl Model {
         Self::from_mjcf_str(crate::V1_5_MJCF).expect("bundled v1.5 MJCF must parse")
     }
 
+    /// Bundled microduck pre-alpha model. New leg/head geometry; unlike
+    /// v1/v1.5 the mouth has no passive linkage, so `mouth_tip` is a rigid
+    /// site on `bottom_head_shell` and is FK-computable directly.
+    pub fn pre_alpha() -> Self {
+        Self::from_mjcf_str(crate::PRE_ALPHA_MJCF).expect("bundled pre-alpha MJCF must parse")
+    }
+
     /// Parse an MJCF from a string.
     pub fn from_mjcf_str(xml: &str) -> Result<Self, ParseError> {
         let tree = mjcf::parse(xml)?;

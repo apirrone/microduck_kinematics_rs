@@ -30,24 +30,27 @@ let cam = model.site_pose("head_camera", &q);
 println!("head_camera @ {:?}", cam.translation);
 ```
 
-`Model::v1()` and `Model::v1_5()` load the bundled MJCFs at compile time.
-`Model::from_mjcf_str(xml)` accepts any compatible MJCF for future
-versions.
+`Model::v1()`, `Model::v1_5()` and `Model::pre_alpha()` load the bundled
+MJCFs at compile time. `Model::from_mjcf_str(xml)` accepts any compatible
+MJCF for future versions.
 
 ## Supported sites
 
-| Site            | v1 | v1.5 |
-|-----------------|----|------|
-| `head_camera`   | ✓  | ✓    |
-| `torso_camera`  | ✓  | ✓    |
-| `imu`           | ✓  | ✓    |
-| `left_foot`     | ✓  | ✓    |
-| `right_foot`    | ✓  | ✓    |
-| `mouth_tip`     | ✓  | —    |
+| Site            | v1 | v1.5 | pre-alpha |
+|-----------------|----|------|-----------|
+| `head_camera`   | ✓  | ✓    | ✓         |
+| `torso_camera`  | ✓  | ✓    | —         |
+| `tof`           | —  | —    | ✓         |
+| `imu`           | ✓  | ✓    | ✓         |
+| `left_foot`     | ✓  | ✓    | ✓         |
+| `right_foot`    | ✓  | ✓    | ✓         |
+| `mouth_tip`     | ✓  | —    | ✓         |
 
 `mouth_tip` on v1.5 is downstream of two passive joints closed by an
 equality constraint; the crate would need a constraint solver to expose
-it, which isn't worth it until something consumes it.
+it, which isn't worth it until something consumes it. pre-alpha dropped
+the passive linkage, so its `mouth_tip` is a rigid site and FK-computable
+again. pre-alpha also replaces the `torso_camera` site with `tof`.
 
 ## Updating MJCFs
 
@@ -64,6 +67,11 @@ git -C ~/MISC/mjlab_microduck show main:src/mjlab_microduck/robot/microduck/robo
 
 python3 scripts/strip_mjcf.py assets/v1/robot_walk.xml    assets/v1/robot_walk.xml
 python3 scripts/strip_mjcf.py assets/v1.5/robot_walk.xml  assets/v1.5/robot_walk.xml
+
+# pre-alpha: stripped straight from the current mjlab working tree.
+python3 scripts/strip_mjcf.py \
+   ~/MISC/mjlab_microduck/src/mjlab_microduck/robot/microduck/robot_walk.xml \
+   assets/pre-alpha/robot_walk.xml
 ```
 
 ## Tests
